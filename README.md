@@ -152,7 +152,7 @@ ros2 run csi_cam_service dual_csi_cam_node --ros-args -p left_video_device_id:=1
 (python3:6344): GStreamer-WARNING **: 11:52:06.415: Failed to load plugin '/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstnvvidconv.so': /lib/aarch64-linux-gnu/libGLdispatch.so.0: cannot allocate memory in static TLS block
 ```
 
-可以修改`~/.bashr`文件，使其预加载，将以下内容写入`~/.bashrc`文件中。
+可以修改`~/.bashrc`文件，使其预加载，将以下内容写入`~/.bashrc`文件中。
 ``` shell
 # 提前将库加载到内存
 export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
