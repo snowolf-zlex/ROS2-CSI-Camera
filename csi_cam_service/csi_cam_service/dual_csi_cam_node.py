@@ -27,20 +27,18 @@ class DualCSICameraNode(Node):
         self.declare_parameter("height", 480)
         self.declare_parameter("fps", 30)
 
-        left_video_device_id = self.get_parameter("left_video_device_id").value
-        right_video_device_id = self.get_parameter("right_video_device_id").value
-        width = self.get_parameter("width").value
-        height = self.get_parameter("height").value
-        fps = self.get_parameter("fps").value
+        self.left_video_device_id = self.get_parameter("left_video_device_id").value
+        self.right_video_device_id = self.get_parameter("right_video_device_id").value
+        self.width = self.get_parameter("width").value
+        self.height = self.get_parameter("height").value
+        self.fps = self.get_parameter("fps").value
 
-        self.get_logger().info(f"Left Video Device ID: {left_video_device_id}")
-        self.get_logger().info(f"Right Video Device ID: {right_video_device_id}")
-        self.get_logger().info(f"Video Width: {width}")
-        self.get_logger().info(f"Video Height: {height}")
-        self.get_logger().info(f"Video FPS: {fps}")
-        self.width = width
-        self.height = height
-        self.fps = fps
+        self.get_logger().info(f"Left Video Device ID: {self.left_video_device_id}")
+        self.get_logger().info(f"Right Video Device ID: {self.right_video_device_id}")
+        self.get_logger().info(f"Video Width: {self.width}")
+        self.get_logger().info(f"Video Height: {self.height}")
+        self.get_logger().info(f"Video FPS: {self.fps}")
+
         self.publisher_left = self.create_publisher(
             Image, "left_csi_cam/image", 10
         )  # 创建图像发布者
@@ -53,10 +51,10 @@ class DualCSICameraNode(Node):
 
         self.bridge = CvBridge()  # 初始化CvBridge
         self.capture_left = cv2.VideoCapture(
-            self.build_pipeline(left_video_device_id), cv2.CAP_GSTREAMER
+            self.build_pipeline(self.left_video_device_id), cv2.CAP_GSTREAMER
         )  # 初始化视频捕获对象
         self.capture_right = cv2.VideoCapture(
-            self.build_pipeline(right_video_device_id), cv2.CAP_GSTREAMER
+            self.build_pipeline(self.right_video_device_id), cv2.CAP_GSTREAMER
         )  # 初始化视频捕获对象
 
         if not self.capture_left.isOpened():
