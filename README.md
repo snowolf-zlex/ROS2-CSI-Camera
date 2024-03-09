@@ -95,6 +95,9 @@ mkdir -p ~/ros_ws/src
 ```
 将工程下载到`~/ros_ws/src`目录下，并进行编译。
 ``` shell
+cd ~/ros_ws/src
+git clone https://github.com/snowolf-zlex/CSI-Camera.git .
+
 cd ~/ros_ws
 rm -rf build install && colcon build --packages-select csi_cam_service
 ```
@@ -112,7 +115,10 @@ rm -rf build install && colcon build --symlink-install --packages-select csi_cam
 cd ~/ros_ws
 source install/setup.bash 
 ```
-启动CSI单目摄像头，默认为`/dev/video0`。
+启动CSI单目摄像头，默认参数：
+- video_device_id:=0
+- image_size:=[640,480]
+- fps:=30
 ``` shell
 ros2 run csi_cam_service single_csi_cam_node
 ``` 
@@ -125,13 +131,16 @@ ros2 run csi_cam_service single_csi_cam_node --ros-args -p video_device_id:=1
 这里有1个图像节点：
 - single_csi_cam/image
 
-启动CSI双目摄像头，默认为`/dev/video0`和`/dev/video1`。
+启动CSI双目摄像头，启动CSI单目摄像头，默认参数：
+- video_device_id:=0
+- image_size:=[640,480]
+- fps:=30
 ``` shell
 ros2 run csi_cam_service dual_csi_cam_node 
 ```
 通过`left_video_device_id`参数指定单目摄像头设备ID，如使用`/dev/video1`。
 ``` shell
-ros2 run csi_cam_service dual_csi_cam_node --ros-args -p left_video_device_id:=1 -p right_video_device_id:=0
+ros2 run csi_cam_service dual_csi_cam_node --ros-args -p video_device_id:=[1,0]
 ```
 
 这里有3个图像节点：

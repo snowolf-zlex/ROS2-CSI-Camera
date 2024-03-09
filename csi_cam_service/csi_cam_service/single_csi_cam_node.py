@@ -4,10 +4,9 @@
 """
 CSI单目摄像头图像处理模块
 默认参数：
-    video_device_id=0
-    width=640
-    height=480
-    fps=30
+    video_device_id:=0
+    image_size:=[640,480]
+    fps:=30
 """
 
 
@@ -22,13 +21,11 @@ class SingleCSICameraNode(Node):
     def __init__(self):
         super().__init__("sigle_csi_cam_node")
         self.declare_parameter("video_device_id", 0)  # 声明和初始化参数
-        self.declare_parameter("width", 640)
-        self.declare_parameter("height", 480)
+        self.declare_parameter("image_size", [640, 480])
         self.declare_parameter("fps", 30)
 
         self.video_device_id = self.get_parameter("video_device_id").value
-        self.width = self.get_parameter("width").value
-        self.height = self.get_parameter("height").value
+        self.width, self.height = self.get_parameter("image_size").value
         self.fps = self.get_parameter("fps").value
 
         self.get_logger().info(f"Video Device ID: {self.video_device_id}")

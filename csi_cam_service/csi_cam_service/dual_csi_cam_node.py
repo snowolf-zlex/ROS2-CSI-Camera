@@ -4,11 +4,9 @@
 """
 CSI双目摄像头图像处理模块
 默认参数：
-    left_video_device_id=0
-    right_video_device_id=1
-    width=640
-    height=480
-    fps=30
+    video_device_id:=[0,1]
+    image_size:=[640,480]
+    fps:=30
 """
 
 import rclpy
@@ -21,16 +19,14 @@ import cv2
 class DualCSICameraNode(Node):
     def __init__(self):
         super().__init__("dual_csi_cam_node")
-        self.declare_parameter("left_video_device_id", 0)  # 声明和初始化参数
-        self.declare_parameter("right_video_device_id", 1)
-        self.declare_parameter("width", 640)
-        self.declare_parameter("height", 480)
+        self.declare_parameter("video_device_id", [0, 1])  # 声明和初始化参数
+        self.declare_parameter("image_size", [640, 480])
         self.declare_parameter("fps", 30)
 
-        self.left_video_device_id = self.get_parameter("left_video_device_id").value
-        self.right_video_device_id = self.get_parameter("right_video_device_id").value
-        self.width = self.get_parameter("width").value
-        self.height = self.get_parameter("height").value
+        self.left_video_device_id, self.right_video_device_id = self.get_parameter(
+            "video_device_id"
+        ).value
+        self.width, self.height = self.get_parameter("image_size").value
         self.fps = self.get_parameter("fps").value
 
         self.get_logger().info(f"Left Video Device ID: {self.left_video_device_id}")
