@@ -26,24 +26,22 @@ class SingleCSICameraNode(Node):
         self.declare_parameter("height", 480)
         self.declare_parameter("fps", 30)
 
-        video_device_id = self.get_parameter("video_device_id").value
-        width = self.get_parameter("width").value
-        height = self.get_parameter("height").value
-        fps = self.get_parameter("fps").value
+        self.video_device_id = self.get_parameter("video_device_id").value
+        self.width = self.get_parameter("width").value
+        self.height = self.get_parameter("height").value
+        self.fps = self.get_parameter("fps").value
 
-        self.get_logger().info(f"Video Device ID: {video_device_id}")
-        self.get_logger().info(f"Video Width: {width}")
-        self.get_logger().info(f"Video Height: {height}")
-        self.get_logger().info(f"Video FPS: {fps}")
-        self.width = width
-        self.height = height
-        self.fps = fps
+        self.get_logger().info(f"Video Device ID: {self.video_device_id}")
+        self.get_logger().info(f"Video Width: {self.width}")
+        self.get_logger().info(f"Video Height: {self.height}")
+        self.get_logger().info(f"Video FPS: {self.fps}")
+
         self.publisher_ = self.create_publisher(
             Image, "sigle_csi_cam/image", 10
         )  # 创建图像发布者
         self.bridge = CvBridge()  # 初始化CvBridge
         self.capture = cv2.VideoCapture(
-            self.build_pipeline(video_device_id), cv2.CAP_GSTREAMER
+            self.build_pipeline(self.video_device_id), cv2.CAP_GSTREAMER
         )  # 初始化视频捕获对象
         if not self.capture.isOpened():
             self.get_logger().error("Failed to open video device")
