@@ -123,7 +123,7 @@ ros2 run csi_cam_service single_csi_cam_node --ros-args -p video_device_id:=1
 这时就可以通过节点`single_csi_cam/image`访问到该摄像头数据，可以通过rviz2来查看图像。
 
 这里有1个图像节点：
-- csi_cam/image
+- single_csi_cam/image
 
 启动CSI双目摄像头，默认为`/dev/video0`和`/dev/video1`。
 ``` shell
