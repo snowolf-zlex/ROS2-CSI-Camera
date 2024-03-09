@@ -1,5 +1,5 @@
 # CSI-Camera
-CSI单目及双目摄像头ROS2模块，主要用在ROS2中进行图像处理，使其能够像使用USB_CAM一样方便。
+Jetson设备上CSI单目及双目摄像头ROS2模块，主要用于ROS2中图像处理，使其能够像使用USB_CAM一样方便。
 
 ## 1. 准备工作
 
