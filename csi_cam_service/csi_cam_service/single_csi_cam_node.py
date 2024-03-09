@@ -65,7 +65,7 @@ class SingleCSICameraNode(Node):
                 frame, encoding="bgr8"
             )  # 将OpenCV图像转换为ROS图像消息
             self.publisher_.publish(image_msg)  # 发布图像消息
-            self.get_logger().info("Image captured and published")  # 输出日志信息
+            self.get_logger().debug("Image captured and published")  # 输出日志信息
         else:
             self.get_logger().error("Failed to capture image")  # 输出错误日志信息
 

@@ -148,6 +148,11 @@ ros2 run csi_cam_service dual_csi_cam_node --ros-args -p video_device_id:=[1,0]
 - right_csi_cam/image：默认`/dev/video1`设备图像
 - dual_csi_cam/imag：横向整合两个图像
 
+通过以下命令查看图像：
+``` shell
+ros2 run rqt_image_view rqt_image_view
+```
+
 ### 2.3 常见错误
 由于CSI使用的是`GStreamer`，会有内存分配问题，如下所示。
 ``` txt

@@ -79,7 +79,7 @@ class DualCSICameraNode(Node):
         if ret_left:
             image_msg_left = self.bridge.cv2_to_imgmsg(frame_left, encoding="bgr8")
             self.publisher_left.publish(image_msg_left)  # 发布图像消息
-            self.get_logger().info("Left image captured and published")  # 输出日志信息
+            self.get_logger().debug("Left image captured and published")  # 输出日志信息
         else:
             self.get_logger().error("Failed to capture Left image")  # 输出错误日志信息
 
@@ -87,7 +87,7 @@ class DualCSICameraNode(Node):
         if ret_right:
             image_msg_right = self.bridge.cv2_to_imgmsg(frame_right, encoding="bgr8")
             self.publisher_right.publish(image_msg_right)  # 发布图像消息
-            self.get_logger().info("Right image captured and published")  # 输出日志信息
+            self.get_logger().debug("Right image captured and published")  # 输出日志信息
         else:
             self.get_logger().error("Failed to capture right image")  # 输出错误日志信息
 
@@ -97,7 +97,7 @@ class DualCSICameraNode(Node):
                 combined_image, encoding="bgr8"
             )
             self.publisher.publish(image_msg_combined)  # 发布图像消息
-            self.get_logger().info(
+            self.get_logger().debug(
                 "Combined image captured and published"
             )  # 输出日志信息
         else:
