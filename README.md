@@ -1,5 +1,5 @@
-# CSI-Camera
-Jetson平台CSI单目及双目摄像头ROS2模块，主要用于ROS2中图像处理，使其能够像使用USB_CAM一样方便。
+# ROS2-CSI-Camera
+Jetson平台CSI单目及双目摄像头ROS2模块，也可以适用于Raspberry Pi，主要用于ROS2中图像处理，使其能够像使用USB_CAM一样方便。
 
 ## 1. 准备工作
 
