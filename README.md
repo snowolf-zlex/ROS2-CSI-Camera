@@ -132,7 +132,7 @@ ros2 run csi_cam_service single_csi_cam_node --ros-args -p video_device_id:=1
 - single_csi_cam/image
 
 启动CSI双目摄像头，启动CSI单目摄像头，默认参数：
-- video_device_id:=0
+- video_device_id:=[0,1]
 - image_size:=[640,480]
 - fps:=30
 ``` shell
@@ -147,11 +147,6 @@ ros2 run csi_cam_service dual_csi_cam_node --ros-args -p video_device_id:=[1,0]
 - left_csi_cam/image：默认`/dev/video0`设备图像
 - right_csi_cam/image：默认`/dev/video1`设备图像
 - dual_csi_cam/imag：横向整合两个图像
-
-此外，还可以通过以下参数设定图像宽度、高度和帧数，其默认值为：
--    width=640
--    height=480
--    fps=30
 
 ### 2.3 常见错误
 由于CSI使用的是`GStreamer`，会有内存分配问题，如下所示。
