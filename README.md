@@ -131,7 +131,7 @@ ros2 run csi_cam_service dual_csi_cam_node
 ```
 通过`left_video_device_id`参数指定单目摄像头设备ID，如使用`/dev/video1`。
 ``` shell
-ros2 run csi_cam_service dual_csi_cam_node --ros-args -p left_video_device_id:=1 right_video_device_id:=0
+ros2 run csi_cam_service dual_csi_cam_node --ros-args -p left_video_device_id:=1 -p right_video_device_id:=0
 ```
 
 这里有3个图像节点：
