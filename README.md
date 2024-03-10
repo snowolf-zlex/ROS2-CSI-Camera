@@ -3,7 +3,7 @@
 CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，如使用该工具做CSI摄像头相机标定。
 
 > [!NOTE]  
-> 当前实现参考了`v4l2_camera`。
+> 当前实现参考了[v4l2_camera](https://github.com/tier4/ros2_v4l2_camera)。
 >
 > ``` shell
 > ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
@@ -236,5 +236,5 @@ export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
 # /image:=/single_csi_cam/image ：这里使用了单目相机图像节点
 ros2 run camera_calibration cameracalibrator --size 6x9 --square 0.020 --ros-args --remap /image:=/single_csi_cam/image --ros-args --remap camera:=/custom_camera
 ```
-棋盘格，图像来自OpenCV。
+棋盘格图像来自OpenCV。
 ![chessboard](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/6fb26cc8-7664-4e47-b451-ab47405e4b72)
