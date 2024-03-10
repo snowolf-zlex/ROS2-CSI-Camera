@@ -4,6 +4,7 @@ CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson平台。�
 
 > [!NOTE]  
 > 当前实现参考`v4l2_camera`
+>
 > ``` shell
 > ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
 > ```
@@ -74,6 +75,7 @@ Entity Info:
 
 > [!TIP]
 > 如果没有该工具，可通过以下命令安装：
+>
 > ```shell
 > sudo apt install v4l-utils 
 > ```
@@ -142,6 +144,7 @@ source install/setup.bash
 
 > [!TIP]
 > 也可以修改`~/.bashrc`文件：
+>
 > ``` shell
 > echo "source ~/ros_ws/install/setup.bash“ >> ~/.bashrc
 > ```
@@ -205,14 +208,15 @@ ros2 run rqt_image_view rqt_image_view
 
 > [!WARNING]  
 > (python3:6344): GStreamer-WARNING **: 11:52:06.411: Failed to load plugin '/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstnvarguscamerasrc.so': /lib/aarch64-linux-gnu/libGLdispatch.so.0: cannot allocate memory in static TLS block
-> 
+>
 > (python3:6344): GStreamer-WARNING **: 11:52:06.415: Failed to load plugin '/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstnvvidconv.so': /lib/aarch64-linux-gnu/libGLdispatch.so.0: cannot allocate memory in static TLS block
-> 
+>
 
 可以修改`~/.bashrc`文件。
 
 > [!IMPORTANT]
 > 修改`~/.bashrc`文件，使其预加载
+>
 > ``` shell
 > # 提前将库加载到内存
 > export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
