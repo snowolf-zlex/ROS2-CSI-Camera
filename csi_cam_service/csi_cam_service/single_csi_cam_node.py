@@ -34,7 +34,7 @@ class SingleCSICameraNode(Node):
         self.get_logger().info(f"Video FPS: {self.fps}")
 
         self.publisher_ = self.create_publisher(
-            Image, "sigle_csi_cam/image", 10
+            Image, "single_csi_cam/image", 10
         )  # 创建图像发布者
         self.bridge = CvBridge()  # 初始化CvBridge
         self.capture = cv2.VideoCapture(
