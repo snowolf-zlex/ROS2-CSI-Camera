@@ -1,10 +1,9 @@
 # ROS2-CSI-Camera
-Jetson平台CSI单目及双目摄像头ROS2模块，也可以适用于Raspberry Pi，主要用于ROS2中图像处理，使其能够像使用USB_CAM一样方便。
-
+CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，如使用该工具做CSI摄像头相机标定。
 当前实现参考了`v4l2_camera`，命令如下：
 ``` shell
 ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
-``` 
+```
 
 ## 1. 准备工作
 
@@ -143,7 +142,8 @@ ros2 run csi_cam_service single_csi_cam_node --ros-args -p video_device_id:=1
 ``` shell
 ros2 run csi_cam_service dual_csi_cam_node 
 ```
-通过`video_device_id`参数指定单目摄像头设备ID，如使用`/dev/video1`。
+通过`video_device_id`参数指定双目摄像头设备ID，如，使用`/dev/video1`作为`left_csi_cam`，使用`/dev/video0`作为`right_csi_cam`。
+**`video_device_id`必须以成对数组出现，且不能有空格。**
 ``` shell
 ros2 run csi_cam_service dual_csi_cam_node --ros-args -p video_device_id:=[1,0]
 ```
@@ -171,3 +171,9 @@ ros2 run rqt_image_view rqt_image_view
 # 提前将库加载到内存
 export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
 ```
+### 2.4 相机标定
+完成上述工作后，可以使用`camera_calibration`来做相机标定。这里使用了7x10,20mm的棋盘格标定盘，也就是内角6*9，图像来自OpenCV。
+``` shell
+ros2 run camera_calibration cameracalibrator --size 6x9 --square 0.020 --ros-args --remap /image:=/single_csi_cam/image --ros-args --remap camera:=/custom_camera
+```
+![chessboard](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/6fb26cc8-7664-4e47-b451-ab47405e4b72)
