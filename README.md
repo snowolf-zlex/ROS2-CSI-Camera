@@ -1,5 +1,10 @@
-# CSI-Camera
-Jetson平台CSI单目及双目摄像头ROS2模块，主要用于ROS2中图像处理，使其能够像使用USB_CAM一样方便。
+# ROS2-CSI-Camera
+Jetson平台CSI单目及双目摄像头ROS2模块，也可以适用于Raspberry Pi，主要用于ROS2中图像处理，使其能够像使用USB_CAM一样方便。
+
+当前实现参考了`v4l2_camera`，命令如下：
+``` shell
+ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
+``` 
 
 ## 1. 准备工作
 
