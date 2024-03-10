@@ -1,11 +1,12 @@
 # ROS2-CSI-Camera
 
 CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，如使用该工具做CSI摄像头相机标定。
-当前实现参考了`v4l2_camera`，命令如下：
 
-``` shell
-ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
-```
+> [!NOTE]  
+> 当前实现参考`v4l2_camera`
+> ``` shell
+> ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
+> ```
 
 ## 1. 准备工作
 
@@ -71,11 +72,11 @@ Entity Info:
    Link 0x0200001f: from remote pad 0x1000006 of entity '13e40000.host1x:nvcsi@15a00000-': Data, Enabled
 ```
 
-如果没有该工具，可通过以下命令安装：
-
-```shell
-sudo apt install v4l-utils 
-```
+> [!TIP]
+> 如果没有该工具，可通过以下命令安装：
+> ```shell
+> sudo apt install v4l-utils 
+> ```
 
 ### 1.2 设备检测
 
@@ -139,11 +140,11 @@ cd ~/ros_ws
 source install/setup.bash 
 ```
 
-也可以修改`~/.bashrc`文件：
-
-``` shell
-echo "source ~/ros_ws/install/setup.bash“ >> ~/.bashrc
-```
+> [!TIP]
+> 也可以修改`~/.bashrc`文件：
+> ``` shell
+> echo "source ~/ros_ws/install/setup.bash“ >> ~/.bashrc
+> ```
 
 启动CSI单目摄像头，默认参数：
 
@@ -178,7 +179,9 @@ ros2 run csi_cam_service dual_csi_cam_node
 ```
 
 通过`video_device_id`参数指定双目摄像头设备ID，如，使用`/dev/video1`作为`dual_csi_cam/image_left`，使用`/dev/video0`作为`dual_csi_cam/image_right`。
-**`video_device_id`必须以成对数组出现，且不能有空格。**
+
+> [!CAUTION]
+> `video_device_id`必须以成对数组出现，且不能有空格。
 
 ``` shell
 ros2 run csi_cam_service dual_csi_cam_node --ros-args -p video_device_id:=[1,0]
@@ -200,18 +203,20 @@ ros2 run rqt_image_view rqt_image_view
 
 由于CSI使用的是`GStreamer`，会有内存分配问题，如下所示。
 
-``` txt
-(python3:6344): GStreamer-WARNING **: 11:52:06.411: Failed to load plugin '/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstnvarguscamerasrc.so': /lib/aarch64-linux-gnu/libGLdispatch.so.0: cannot allocate memory in static TLS block
+> [!WARNING]  
+> (python3:6344): GStreamer-WARNING **: 11:52:06.411: Failed to load plugin '/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstnvarguscamerasrc.so': /lib/aarch64-linux-gnu/libGLdispatch.so.0: cannot allocate memory in static TLS block
+> 
+> (python3:6344): GStreamer-WARNING **: 11:52:06.415: Failed to load plugin '/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstnvvidconv.so': /lib/aarch64-linux-gnu/libGLdispatch.so.0: cannot allocate memory in static TLS block
+> 
 
-(python3:6344): GStreamer-WARNING **: 11:52:06.415: Failed to load plugin '/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstnvvidconv.so': /lib/aarch64-linux-gnu/libGLdispatch.so.0: cannot allocate memory in static TLS block
-```
+可以修改`~/.bashrc`文件。
 
-可以修改`~/.bashrc`文件，使其预加载，将以下内容写入`~/.bashrc`文件中。
-
-``` shell
-# 提前将库加载到内存
-export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
-```
+> [!IMPORTANT]
+> 修改`~/.bashrc`文件，使其预加载
+> ``` shell
+> # 提前将库加载到内存
+> export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
+> ```
 
 ### 2.4 相机标定
 
