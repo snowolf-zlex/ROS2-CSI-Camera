@@ -1,9 +1,9 @@
 # ROS2-CSI-Camera
 
-CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，如使用该工具做CSI摄像头相机标定。
+CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，如使用该工具做CSI摄像头相机标定。
 
 > [!NOTE]  
-> 当前实现参考`v4l2_camera`
+> 当前实现参考了`v4l2_camera`。
 >
 > ``` shell
 > ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
@@ -212,22 +212,29 @@ ros2 run rqt_image_view rqt_image_view
 > (python3:6344): GStreamer-WARNING **: 11:52:06.415: Failed to load plugin '/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstnvvidconv.so': /lib/aarch64-linux-gnu/libGLdispatch.so.0: cannot allocate memory in static TLS block
 >
 
-可以修改`~/.bashrc`文件。
+修改`~/.bashrc`文件，使其预加载：
 
-> [!IMPORTANT]
-> 修改`~/.bashrc`文件，使其预加载
->
-> ``` shell
-> # 提前将库加载到内存
-> export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
-> ```
+``` shell
+# 提前将库加载到内存
+export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
+```
 
 ### 2.4 相机标定
 
-完成上述工作后，可以使用`camera_calibration`来做相机标定。这里使用了7x10,20mm的棋盘格标定盘，也就是内角6*9，图像来自OpenCV。
+完成上述工作后，可以使用`camera_calibration`来做相机标定。
+
+> [!IMPORTANT]
+> 这里使用了7x10 20mm的棋盘格标定盘。
+> 1. 实际上使用的是棋盘格内角，也就是6x9，这里很容易写错参数。
+> 2. 实际打印出来的棋盘格，由于打印机设备、纸张材料等因素干扰，实际上可能不是标定的尺寸，需要根据实际情况微调参数。
+
+执行`camera_calibration`命令，来做相机标定。
 
 ``` shell
+# --size 6x9 ：7x10棋盘格
+# --square 0.020 ： 格子尺寸
+# /image:=/single_csi_cam/image ：这里使用了单目相机图像节点
 ros2 run camera_calibration cameracalibrator --size 6x9 --square 0.020 --ros-args --remap /image:=/single_csi_cam/image --ros-args --remap camera:=/custom_camera
 ```
-
+棋盘格，图像来自OpenCV。
 ![chessboard](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/6fb26cc8-7664-4e47-b451-ab47405e4b72)
