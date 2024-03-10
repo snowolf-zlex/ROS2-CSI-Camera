@@ -36,13 +36,13 @@ class DualCSICameraNode(Node):
         self.get_logger().info(f"Video FPS: {self.fps}")
 
         self.publisher_left = self.create_publisher(
-            Image, "left_csi_cam/image", 10
+            Image, "/dual_csi_cam/image_left", 10
         )  # 创建图像发布者
         self.publisher_right = self.create_publisher(
-            Image, "right_csi_cam/image", 10
+            Image, "/dual_csi_cam/image_right", 10
         )  # 创建图像发布者
         self.publisher = self.create_publisher(
-            Image, "dual_csi_cam/image", 10
+            Image, "/dual_csi_cam/image_combine", 10
         )  # 创建图像发布者
 
         self.bridge = CvBridge()  # 初始化CvBridge
