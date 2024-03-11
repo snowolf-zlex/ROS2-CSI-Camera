@@ -1,6 +1,6 @@
 # ROS2-CSI-Camera
 
-CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，如使用该工具做CSI摄像头相机标定。
+CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，提供单双目原始图像、压缩图像和深度图像(BM、SGBM算法），支持相机标定和校准。
 
 > [!NOTE]  
 > 当前实现参考了[v4l2_camera](https://github.com/tier4/ros2_v4l2_camera)。
