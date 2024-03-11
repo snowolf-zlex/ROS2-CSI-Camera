@@ -225,6 +225,7 @@ export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
 
 > [!IMPORTANT]
 > 这里使用了7x10 20mm的棋盘格标定盘。
+>
 > 1. 实际上使用的是棋盘格内角，也就是6x9，这里很容易写错参数。
 > 2. 实际打印出来的棋盘格，由于打印机设备、纸张材料等因素干扰，实际上可能不是标定的尺寸，需要根据实际情况微调参数。
 
@@ -236,5 +237,6 @@ export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
 # /image:=/single_csi_cam/image ：这里使用了单目相机图像节点
 ros2 run camera_calibration cameracalibrator --size 6x9 --square 0.020 --ros-args --remap /image:=/single_csi_cam/image --ros-args --remap camera:=/custom_camera
 ```
+
 棋盘格图像来自OpenCV。
 ![chessboard](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/6fb26cc8-7664-4e47-b451-ab47405e4b72)
