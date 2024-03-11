@@ -2,8 +2,8 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>csi_cam_service</name>
-  <version>1.0.0</version>
-  <description>CSI单目/多目摄像头ROS2模块，用于发布单目/双目图像话题</description>
+  <version>1.1.0</version>
+  <description>CSI单目/多目摄像头ROS2模块，提供单目/双目图像话题，包括原始图像、压缩图像、深度图像和镜头信息等。</description>
   <maintainer email="zlex.dongliang@gmail.com">Snowolf</maintainer>
   <license>Apache-2.0 license</license>
 

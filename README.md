@@ -154,47 +154,55 @@ source install/setup.bash
 - video_device_id:=0
 - image_size:=[640,480]
 - fps:=30
+- calibration_file_path:=? 支持通过外部相机标定文件校准镜头
 
 ``` shell
-ros2 run csi_cam_service single_csi_cam_node
+ros2 run csi_cam_service mono_cam_node
 ```
 
 通过`video_device_id`参数指定单目摄像头设备ID，如使用`/dev/video1`。
 
 ``` shell
-ros2 run csi_cam_service single_csi_cam_node --ros-args -p video_device_id:=1
+ros2 run csi_cam_service mono_cam_node --ros-args -p video_device_id:=1
 ```
 
-这时就可以通过节点`single_csi_cam/image`访问到该摄像头数据，可以通过rviz2来查看图像。
+这时就可以通过`mono_cam/image_raw`访问到该摄像头数据，可以通过rviz2来查看图像。
 
-这里有1个图像节点：
+这里有3个图像话题：
 
-- /single_csi_cam/image
+- /mono_cam/image_raw: 原始图像
+- /mono_cam/image_compressed: 压缩图像
+- /mono_cam/camera_info: 摄像头设备信息
 
 启动CSI双目摄像头，启动CSI单目摄像头，默认参数：
 
 - video_device_id:=[0,1]
 - image_size:=[640,480]
 - fps:=30
+- calibration_file_path:=[,] 支持通过外部相机标定文件校准镜头
+- algorithm_type:=bm 提供深度算法支持，默认BM算法，还可以选择SGBM
 
 ``` shell
-ros2 run csi_cam_service dual_csi_cam_node 
+ros2 run csi_cam_service stereo_cam_node 
 ```
 
-通过`video_device_id`参数指定双目摄像头设备ID，如，使用`/dev/video1`作为`dual_csi_cam/image_left`，使用`/dev/video0`作为`dual_csi_cam/image_right`。
+通过`video_device_id`参数指定双目摄像头设备ID，如，使用`/dev/video1`作为`stereo_cam/image_left`，使用`/dev/video0`作为`stereo_cam/image_right`。
 
 > [!CAUTION]
 > `video_device_id`必须以成对数组出现，且不能有空格。
 
 ``` shell
-ros2 run csi_cam_service dual_csi_cam_node --ros-args -p video_device_id:=[1,0]
+ros2 run csi_cam_service stereo_cam_node --ros-args -p video_device_id:=[1,0]
 ```
 
-这里有3个图像节点：
+这里有3个图像话题：
 
-- /dual_csi_cam/image_left：默认`/dev/video0`设备图像
-- /dual_csi_cam/image_right：默认`/dev/video1`设备图像
-- /dual_csi_cam/image_combine：横向整合两个图像
+- /stereo_cam/image_left_raw：默认`/dev/video0`设备图像
+- /stereo_cam/image_right_raw：默认`/dev/video1`设备图像
+- /stereo_cam/image_combine_raw：横向整合两个图像
+- /stereo_cam/image_compressed：压缩图像（左侧摄像头）
+- /stereo_cam/image_compressed_depth：压缩及深度图像
+- /stereo_cam/camera_info：设备信息（左侧摄像头）
 
 通过以下命令查看图像：
 
@@ -235,9 +243,9 @@ export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
 # --approximate 0.1: 指定标定节点的时间间隔（以秒为单位），用于控制相邻帧之间的时间间隔。在这个命令中，标定节点将会尝试以0.1秒的间隔处理图像帧。
 # --size 6x9: 棋盘格的大小。在这个命令中，棋盘格的大小为6行x9列。
 # --square 0.020: 棋盘格每个方格的大小（以米为单位）。在这个命令中，每个方格的大小为0.020米。
-# image:=/single_csi_cam/image ：这里使用了单目相机图像节点
+# image:=/mono_cam/image_raw: 这里使用了单目相机图像节点
 ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --square 0.020 \
---ros-args --remap image:=/single_csi_cam/image \
+--ros-args --remap image:=/mono_cam/image_raw \
 --ros-args --remap camera:=/custom_camera
 ```
 
@@ -245,11 +253,11 @@ ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --squa
 
 ``` shell
 # 这里使用了双目相机图像节点
-# left:=/dual_csi_cam/image_left 
-# right:=/dual_csi_cam/image_right
+# left:=/stereo_cam/image_left 
+# right:=/stereo_cam/image_right
 ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --square 0.020 \
---ros-args --remap left:=/dual_csi_cam/image_left \
---ros-args --remap right:=/dual_csi_cam/image_right \
+--ros-args --remap left:=/stereo_cam/image_left \
+--ros-args --remap right:=/stereo_cam/image_right \
 --ros-args --remap left_camera:=/custom_camera/image_left \
 --ros-args --remap right_camera:=/custom_camera/image_right 
 ```
