@@ -229,14 +229,32 @@ export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
 > 1. 实际上使用的是棋盘格内角，也就是6x9，这里很容易写错参数。
 > 2. 实际打印出来的棋盘格，由于打印机设备、纸张材料等因素干扰，实际上可能不是标定的尺寸，需要根据实际情况微调参数。
 
-执行`camera_calibration`命令，来做相机标定。
+执行`camera_calibration`命令，来做单目相机标定。
 
 ``` shell
-# --size 6x9 ：7x10棋盘格
-# --square 0.020 ： 格子尺寸
-# /image:=/single_csi_cam/image ：这里使用了单目相机图像节点
-ros2 run camera_calibration cameracalibrator --size 6x9 --square 0.020 --ros-args --remap /image:=/single_csi_cam/image --ros-args --remap camera:=/custom_camera
+# --approximate 0.1: 指定标定节点的时间间隔（以秒为单位），用于控制相邻帧之间的时间间隔。在这个命令中，标定节点将会尝试以0.1秒的间隔处理图像帧。
+# --size 6x9: 棋盘格的大小。在这个命令中，棋盘格的大小为6行x9列。
+# --square 0.020: 棋盘格每个方格的大小（以米为单位）。在这个命令中，每个方格的大小为0.020米。
+# image:=/single_csi_cam/image ：这里使用了单目相机图像节点
+ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --square 0.020 \
+--ros-args --remap image:=/single_csi_cam/image \
+--ros-args --remap camera:=/custom_camera
 ```
+
+执行`camera_calibration`命令，来做单目相机标定。
+
+``` shell
+# 这里使用了双目相机图像节点
+# left:=/dual_csi_cam/image_left 
+# right:=/dual_csi_cam/image_right
+ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --square 0.020 \
+--ros-args --remap left:=/dual_csi_cam/image_left \
+--ros-args --remap right:=/dual_csi_cam/image_right \
+--ros-args --remap left_camera:=/custom_camera/image_left \
+--ros-args --remap right_camera:=/custom_camera/image_right 
+```
+
+## 附件
 
 棋盘格图像来自OpenCV。
 ![chessboard](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/6fb26cc8-7664-4e47-b451-ab47405e4b72)
