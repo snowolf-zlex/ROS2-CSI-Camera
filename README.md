@@ -241,7 +241,7 @@ ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --squa
 --ros-args --remap camera:=/custom_camera
 ```
 
-执行`camera_calibration`命令，来做单目相机标定。
+下面执行`camera_calibration`命令做双目相机标定。
 
 ``` shell
 # 这里使用了双目相机图像节点
