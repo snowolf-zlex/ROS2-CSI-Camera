@@ -19,8 +19,8 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "single_csi_cam_node = csi_cam_service.single_csi_cam_node:main",
-            "dual_csi_cam_node = csi_cam_service.dual_csi_cam_node:main",
+            "mono_cam_node = csi_cam_service.mono_cam_node:main",
+            "stereo_cam_node = csi_cam_service.stereo_cam_node:main",
         ],
     },
 )
