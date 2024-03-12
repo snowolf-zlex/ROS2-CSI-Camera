@@ -227,6 +227,10 @@ ros2 launch csi_cam_service stereo_cam.launch.py
 ros2 run rqt_image_view rqt_image_view
 ```
 
+使用BM算法默认参数获得深度图像（比耶），参数有待优化：
+
+![2024-03-12 11-28-49 的屏幕截图](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/dd92553c-a415-4e29-8ef6-bd1880b6a532)
+
 ### 2.3 常见错误
 
 由于CSI使用的是`GStreamer`，会有内存分配问题，如下所示。
@@ -265,6 +269,10 @@ ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --squa
 --ros-args --remap image:=/mono_cam/image_raw \
 --ros-args --remap camera:=/custom_camera
 ```
+
+单目相机标定过程：
+
+![2024-03-10 10-25-26 的屏幕截图](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/8747eba1-1f38-4a70-a579-a6d621e8d833)
 
 下面执行`camera_calibration`命令做双目相机标定。
 
