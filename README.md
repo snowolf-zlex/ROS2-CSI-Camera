@@ -287,6 +287,11 @@ ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --squa
 --ros-args --remap right_camera:=/custom_camera/image_right 
 ```
 
+双目摄像头标定:
+
+![2024-03-12 13-12-27 的屏幕截图](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/8fd74376-16a4-4f5e-876a-eb59de12017a)
+
+
 完成标定后，提取标定文件，并移动到需要的位置。
 
 ``` shell
