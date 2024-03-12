@@ -27,6 +27,10 @@ crw-rw----+ 1 root video 81, 0 Nov 22 05:10 /dev/video0
 crw-rw----+ 1 root video 81, 4 Nov 22 05:10 /dev/video1
 ```
 
+> [!NOTE]  
+> CSI摄像头连接不是很稳定，即便没有任何物理碰触，也有可能重开机后找不到设备。
+> 如果发现程序突然打不开摄像头，可以先看看是不是系统里找不到摄像头了。
+
 使用`v4l2-ctl`命令查看摄像头设备信息，如查看`/dev/video0`
 
 ``` shell
@@ -86,9 +90,12 @@ Entity Info:
 
 ```shell
 # 开启第一摄像头
-DISPLAY=:0.0 nvgstcapture-1.0 --sensor-id=0 &
+DISPLAY=:0.0 nvgstcapture-1.0 --sensor-id=0 
+```
+
+```shell
 # 开启第二摄像头
-DISPLAY=:0.0 nvgstcapture-1.0 --sensor-id=1 &
+DISPLAY=:0.0 nvgstcapture-1.0 --sensor-id=1 
 ```
 
 ### 1.3 偏色修正
@@ -149,6 +156,14 @@ source install/setup.bash
 > echo "source ~/ros_ws/install/setup.bash“ >> ~/.bashrc
 > ```
 
+#### 2.2.1 单目摄像头(Monocular Camera)
+
+CSI单目摄像头节点共有3个图像话题：
+
+- /mono_cam/image_raw: 原始图像
+- /mono_cam/image_compressed: 压缩图像
+- /mono_cam/camera_info: 摄像头设备信息
+
 启动CSI单目摄像头，默认参数：
 
 - video_device_id:=0
@@ -168,13 +183,18 @@ ros2 run csi_cam_service mono_cam_node --ros-args -p video_device_id:=1
 
 这时就可以通过`/mono_cam/image_raw`访问到该摄像头数据，可以通过rviz2来查看图像。
 
-这里有3个图像话题：
+#### 2.2.2 双目摄像头(Stereo Camera)
 
-- /mono_cam/image_raw: 原始图像
-- /mono_cam/image_compressed: 压缩图像
-- /mono_cam/camera_info: 摄像头设备信息
+CSI双目摄像头节点，共有3个图像话题：
 
-启动CSI双目摄像头，启动CSI单目摄像头，默认参数：
+- /stereo_cam/image_left_raw：默认`/dev/video0`设备图像
+- /stereo_cam/image_right_raw：默认`/dev/video1`设备图像
+- /stereo_cam/image_combine_raw：横向整合两个图像
+- /stereo_cam/image_compressed：压缩图像（左侧摄像头）
+- /stereo_cam/image_compressed_depth：压缩及深度图像
+- /stereo_cam/camera_info：设备信息（左侧摄像头）
+
+默认参数：
 
 - video_device_id:=[0,1]
 - image_size:=[640,480]
@@ -195,16 +215,13 @@ ros2 run csi_cam_service stereo_cam_node
 ros2 run csi_cam_service stereo_cam_node --ros-args -p video_device_id:=[1,0]
 ```
 
-这里有3个图像话题：
+这里提供了launch运行方式，将使用内置的相机标定文件（config中）进行校准，以便实现深度图像。
 
-- /stereo_cam/image_left_raw：默认`/dev/video0`设备图像
-- /stereo_cam/image_right_raw：默认`/dev/video1`设备图像
-- /stereo_cam/image_combine_raw：横向整合两个图像
-- /stereo_cam/image_compressed：压缩图像（左侧摄像头）
-- /stereo_cam/image_compressed_depth：压缩及深度图像
-- /stereo_cam/camera_info：设备信息（左侧摄像头）
+``` shell
+ros2 launch csi_cam_service stereo_cam.launch.py 
+```
 
-通过以下命令查看图像：
+通过以下命令可查看图像：
 
 ``` shell
 ros2 run rqt_image_view rqt_image_view
@@ -260,6 +277,21 @@ ros2 run camera_calibration cameracalibrator --approximate 0.1 --size 6x9 --squa
 --ros-args --remap right:=/stereo_cam/image_right_raw \
 --ros-args --remap left_camera:=/custom_camera/image_left \
 --ros-args --remap right_camera:=/custom_camera/image_right 
+```
+
+完成标定后，提取标定文件，并移动到需要的位置。
+
+``` shell
+# 提取标定参数文件
+mkdir -p ~/calibration
+cd ~/calibration
+mv /tmp/calibrationdata.tar.gz .
+
+# 解压缩
+tar vxzf calibrationdata.tar.gz
+
+#这里能找到left.yaml 和 right.yaml两个文件，将其移动到需要位置即可
+ll *.yaml
 ```
 
 ## 附件
