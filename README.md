@@ -9,7 +9,9 @@ CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson等ARM平�
 > ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
 > ```
 
-**似乎`v4l2_camera`对于CSI设备的支持不是很友好，为了能借助ROS camera_calibration 工具来实现相机标定，于是我写了这个项目。**
+**似乎`v4l2_camera`对于CSI设备的支持不是很友好，为了能借助ROS Camera Calibration 工具来实现相机标定，于是我写了这个项目。**
+
+_在utils工具包中，我实现了棋盘格打印、双目相机校准，可以自行选用。_
 
 ## 1. 准备工作
 
