@@ -1,6 +1,6 @@
 # ROS2-CSI-Camera
 
-CSI单目及双目摄像头ROS2模块，适用于Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，提供单双目原始图像、压缩图像和深度图像(BM、SGBM算法），支持相机标定和校准。
+CSI单目及双目摄像头ROS2模块，适用于Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，提供单双目原始图像、压缩图像和深度图像(BM、SGBM算法），支持相机标定和校准。已经完成了docker版本更新，可以在ROS2 Humble版本下使用CSI双目摄像头，屏蔽主机环境问题导致的GStreamer版本冲突问题。
 
 > [!NOTE]  
 > 当前实现参考了[v4l2_camera](https://github.com/tier4/ros2_v4l2_camera)
@@ -9,7 +9,7 @@ CSI单目及双目摄像头ROS2模块，适用于Jetson等ARM平台。主要用�
 > ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:="/dev/video0" -p image_size:=[1280,720]
 > ```
 
-**似乎`v4l2_camera`对于CSI设备的支持不是很友好，为了能借助ROS Camera Calibration 工具来实现相机标定，于是我写了这个项目。**
+**似乎`v4l2_camera`对于CSI设备的支持不是很友好，为了能屏蔽主机版本冲突引起的CSI摄像头调起失败问题，于是我写了这个项目。**
 
 _在utils工具包中，我实现了棋盘格打印、双目相机校准，可以自行选用。_
 
