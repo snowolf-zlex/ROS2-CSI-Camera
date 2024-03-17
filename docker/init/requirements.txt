@@ -1,1 +1,4 @@
 ruamel.yaml
+torch 
+torchvision 
+torchaudio

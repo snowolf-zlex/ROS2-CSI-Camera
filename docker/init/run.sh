@@ -2,6 +2,7 @@
 xhost + 
 
 docker run \
+    --gpus all \
     -it \
     --network host \
     --runtime nvidia \

@@ -1,5 +1,5 @@
-# 基于 l4t_humble_base:latest 的 Dockerfile
-FROM l4t_humble_base:latest
+# 基于 l4t版本的humble子版本构建
+FROM snowolf2012/l4t-humble-base
 
 # 禁用交互式界面
 ENV DEBIAN_FRONTEND=noninteractive

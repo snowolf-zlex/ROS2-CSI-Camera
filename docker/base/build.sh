@@ -1,1 +1,0 @@
-docker build -t l4t_humble_base:latest .
