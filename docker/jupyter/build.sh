@@ -1,0 +1,1 @@
+docker build -t l4t-humble-jupyter:latest .

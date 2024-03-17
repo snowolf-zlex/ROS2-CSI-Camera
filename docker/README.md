@@ -17,7 +17,7 @@
 进入docker容器后，可以通过以下命令可以测试GSreamer时是否正常：
 
 ``` shell
-sh ./test.sh
+./test.sh
 ```
 
 ``` shell
