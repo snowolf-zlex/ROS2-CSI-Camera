@@ -15,11 +15,7 @@ from sensor_msgs.msg import Image
 from sensor_msgs.msg import CameraInfo
 from cv_bridge import CvBridge
 import cv2
-import os
-
-import cv2
 import numpy as np
-
 from ruamel.yaml import YAML
 
 

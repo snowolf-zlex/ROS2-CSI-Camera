@@ -18,7 +18,6 @@ from sensor_msgs.msg import CameraInfo
 import cv2
 import numpy as np
 
-
 from ruamel.yaml import YAML
 
 

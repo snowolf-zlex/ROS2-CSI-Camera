@@ -1,6 +1,6 @@
 # ROS2-CSI-Camera
 
-CSI单目及双目摄像头ROS2模块，适用于Raspberry Pi和Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，提供单双目原始图像、压缩图像和深度图像(BM、SGBM算法），支持相机标定和校准。
+CSI单目及双目摄像头ROS2模块，适用于Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，提供单双目原始图像、压缩图像和深度图像(BM、SGBM算法），支持相机标定和校准。
 
 > [!NOTE]  
 > 当前实现参考了[v4l2_camera](https://github.com/tier4/ros2_v4l2_camera)
@@ -235,7 +235,19 @@ ros2 run rqt_image_view rqt_image_view
 
 ![2024-03-12 11-28-49 的屏幕截图](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/dd92553c-a415-4e29-8ef6-bd1880b6a532)
 
-### 2.3 常见错误
+### 2.3 Docker版本
+
+支持通过Docker部署并启动CSI双目摄像头深度测距环境，完全摆脱了主机软件包版本冲突导致的CSI无法正常调起的问题。
+
+在根目录下，使用以下命令完成镜像构建：
+
+``` shell
+./build.sh
+```
+
+可以在docker容器中启动该项目，并在rviz2中订阅CSI双目摄像头话题数据。
+
+### 2.4 常见错误
 
 由于CSI使用的是`GStreamer`，会有内存分配问题，如下所示。
 
