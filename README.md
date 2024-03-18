@@ -264,7 +264,7 @@ ros2 run rqt_image_view rqt_image_view
 export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
 ```
 
-### 2.4 相机标定
+### 2.5 相机标定
 
 完成上述工作后，可以使用`camera_calibration`来做相机标定。
 
