@@ -491,8 +491,6 @@ def main():
     print(calibration_result1["image_height"])
     print("Camera Matrix:")
     print(calibration_result1["camera_matrix"])
-    print("Camera Matrix:")
-    print(calibration_result1["camera_matrix"])
     print("\nDistortion Coefficients:")
     print(calibration_result1["distortion_coefficients"])
     print("\nDistortion Model:")
