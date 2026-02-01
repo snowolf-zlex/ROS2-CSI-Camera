@@ -1,0 +1,18 @@
+# Jetson Camera Toolkit - 基础依赖
+
+# 图像处理
+opencv-python>=4.5.0
+numpy>=1.19.0
+
+# 网络请求
+requests>=2.25.0
+
+# GStreamer (系统包，需单独安装)
+# sudo apt-get install libgstreamer1.0-dev libgstrtspserver-1.0-dev python3-gi
+
+# ============ 可选依赖 ============
+
+# YOLO 目标检测（示例使用）
+# ultralytics>=8.0.0
+# torch>=2.0.0
+# torchvision>=0.15.0

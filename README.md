@@ -1,4 +1,9 @@
-# ROS2-CSI-Camera
+# ROS2-CSI-Camera 📹
+
+[![ROS2](https://img.shields.io/badge/ROS2-Humble%20%7C%20Foxy-blue.svg)](https://docs.ros.org/en/humble/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Jetson%20Nano%20%7C%20Xavier%20NX%20%7C%20Orin-orange.svg)](https://developer.nvidia.com/embedded/jetson-platform)
+[![Docker](https://img.shields.io/badge/docker-supported-blue.svg)](https://www.docker.com)
 
 CSI单目及双目摄像头ROS2模块，适用于Jetson等ARM平台。主要用于ROS2中图像节点发布，使其能够像使用USB_CAM一样方便，提供单双目原始图像、压缩图像和深度图像(BM、SGBM算法），支持相机标定和校准。已经完成了docker版本更新，可以在ROS2 Humble版本下使用CSI双目摄像头，屏蔽主机环境问题导致的GStreamer版本冲突问题。
 
@@ -13,9 +18,9 @@ CSI单目及双目摄像头ROS2模块，适用于Jetson等ARM平台。主要用�
 
 _在utils工具包中，我实现了棋盘格打印、双目相机校准，可以自行选用。_
 
-## 1. 准备工作
+## 1. 准备工作 🛠️
 
-### 1.1 设备查看
+### 1.1 设备查看 🔍
 
 在使用CSI摄像头前，请确认CSI摄像头已连接好，且图像显示正常。
 
@@ -88,7 +93,7 @@ Entity Info:
 > sudo apt install v4l-utils 
 > ```
 
-### 1.2 设备检测
+### 1.2 设备检测 📸
 
 完成上述设备检测后，可以使用`nvgstcapture-1.0`命令调取摄像头图像。
 
@@ -102,7 +107,7 @@ DISPLAY=:0.0 nvgstcapture-1.0 --sensor-id=0
 DISPLAY=:0.0 nvgstcapture-1.0 --sensor-id=1 
 ```
 
-### 1.3 偏色修正
+### 1.3 偏色修正 🎨
 
 部分CSI摄像头存在偏色问题，以下是`imx219`芯片CSI摄像头解决办法。
 
@@ -115,9 +120,9 @@ sudo chmod 664 /var/nvidia/nvcam/settings/camera_overrides.isp
 sudo chown root:root /var/nvidia/nvcam/settings/camera_overrides.isp
 ```
 
-## 2. 服务部署
+## 2. 服务部署 🚀
 
-### 2.1 准备工作
+### 2.1 准备工作 📦
 
 请确保在进行以下工作前已经安装好了ROS2以及相应的包，这里使用了ROS2的Foxy版本。
 
@@ -144,7 +149,7 @@ cd ~/ros_ws
 rm -rf build install && colcon build --symlink-install --packages-select csi_cam_service
 ```
 
-### 2.2 启动服务
+### 2.2 启动服务 ▶️
 
 加载项目环境：
 
@@ -160,7 +165,7 @@ source install/setup.bash
 > echo "source ~/ros_ws/install/setup.bash“ >> ~/.bashrc
 > ```
 
-#### 2.2.1 单目摄像头(Monocular Camera)
+#### 2.2.1 单目摄像头 👁️
 
 CSI单目摄像头节点共有3个图像话题：
 
@@ -187,7 +192,7 @@ ros2 run csi_cam_service mono_cam_node --ros-args -p video_device_id:=1
 
 这时就可以通过`/mono_cam/image_raw`访问到该摄像头数据，可以通过rviz2来查看图像。
 
-#### 2.2.2 双目摄像头(Stereo Camera)
+#### 2.2.2 双目摄像头 👓
 
 CSI双目摄像头节点，共有3个图像话题：
 
@@ -235,7 +240,7 @@ ros2 run rqt_image_view rqt_image_view
 
 ![2024-03-12 11-28-49 的屏幕截图](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/dd92553c-a415-4e29-8ef6-bd1880b6a532)
 
-### 2.3 Docker版本
+### 2.3 Docker版本 🐳
 
 支持通过Docker部署并启动CSI双目摄像头深度测距环境，完全摆脱了主机软件包版本冲突导致的CSI无法正常调起的问题。
 
@@ -247,7 +252,7 @@ ros2 run rqt_image_view rqt_image_view
 
 可以在docker容器中启动该项目，并在rviz2中订阅CSI双目摄像头话题数据。
 
-### 2.4 常见错误
+### 2.4 常见错误 ⚠️
 
 由于CSI使用的是`GStreamer`，会有内存分配问题，如下所示。
 
@@ -264,7 +269,7 @@ ros2 run rqt_image_view rqt_image_view
 export LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so.0
 ```
 
-### 2.5 相机标定
+### 2.5 相机标定 📐
 
 完成上述工作后，可以使用`camera_calibration`来做相机标定。
 
@@ -323,7 +328,62 @@ tar vxzf calibrationdata.tar.gz
 ll *.yaml
 ```
 
-## 附件
+## 附件 📎
 
 棋盘格图像来自OpenCV。
 ![chessboard](https://github.com/snowolf-zlex/ROS2-CSI-Camera/assets/3873394/6fb26cc8-7664-4e47-b451-ab47405e4b72)
+
+---
+
+## 工具集 🛠️
+
+本项目包含以下实用工具：
+
+### Jetson Camera Toolkit 📹
+
+基于 NVIDIA Jetson 平台的摄像头采集、RTSP 推流、相机标定一体化工具包（独立于 ROS2 使用）。
+
+**功能特性：**
+- 多源视频输入（CSI/USB 摄像头、RTSP 流、视频文件）
+- RTSP 推流输出
+- 多摄像头布局显示
+- 单目/双目相机标定
+- 棋盘格标定盘生成
+- Jupyter Notebook 交互式示例
+
+**项目结构：**
+```
+utils/
+├── __init__.py           # 包初始化
+├── toolkit.py            # 命令行工具入口
+├── camera.py             # 摄像头核心模块
+├── rtsp.py               # RTSP 推流模块
+├── calibrate.py          # 相机标定模块
+└── examples/             # Jupyter Notebook 示例
+    ├── jupyter/          # Notebook 目录
+    │   ├── camera_preview.ipynb      # 单摄像头预览
+    │   ├── multi_csi_preview.ipynb   # 多 CSI 预览
+    │   └── yolo_rtsp.ipynb           # YOLO + RTSP 推流
+    └── README.md         # 示例说明
+```
+
+**快速使用：**
+```bash
+# 安装依赖
+pip install -r requirements.txt
+
+# 命令行工具
+python utils/toolkit.py stream --source=csi://0
+python utils/toolkit.py view --sources=0,1,2
+python utils/toolkit.py calibrate mono --images-dir=./calib_images
+python utils/toolkit.py chessboard --a4
+
+# Jupyter Notebook 示例（推荐用于学习和开发）
+jupyter lab
+# 然后打开 utils/examples/jupyter/ 中的 Notebook
+```
+
+📖 **文档:**
+- [Toolkit 文档](docs/JETSON_CAMERA_TOOLKIT.md)
+- [Jupyter 使用指南](docs/JUPYTER_EXAMPLES.md)
+- [示例说明](utils/examples/README.md)

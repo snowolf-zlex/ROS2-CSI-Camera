@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Jupyter 镜像构建脚本
+# CSI 相机节点镜像构建脚本
 # ==============================================================================
 
 set -e
@@ -13,21 +13,21 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 echo ""
 echo "========================================"
-echo "构建 Jupyter 镜像"
+echo "构建 CSI 相机节点镜像"
 echo "========================================"
 echo ""
 
 # 构建
 docker build \
     -f "${SCRIPT_DIR}/Dockerfile" \
-    -t l4t-jupyter:latest \
+    -t l4t-ros2-csi-node:latest \
     "${PROJECT_ROOT}"
 
 if [ $? -eq 0 ]; then
     echo ""
     echo -e "${GREEN}构建完成!${NC}"
     echo ""
-    docker images l4t-jupyter:latest
+    docker images l4t-ros2-csi-node:latest
 else
     echo "构建失败!"
     exit 1
